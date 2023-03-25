@@ -70,3 +70,17 @@ cp /home/user/data3/uplee/projects/spatialTransWeb/manuscript/manuscript_submiss
 
 #### EO 2023-03-22 ####
 
+#### 2023-03-23 ####
+
+# Modify process_sc.py (debug13)
+
+cp /home/user/data3/uplee/projects/spatialTransWeb/manuscript/manuscript_submission/debug/scripts/process_sc.py ./
+
+# Modify MIA_align.py & MIA_utils.py (debug14)
+
+cp /home/user/data3/uplee/projects/spatialTransWeb/manuscript/manuscript_submission/debug/scripts/MIA_align.py ./
+cp /home/user/data3/uplee/projects/spatialTransWeb/manuscript/manuscript_submission/debug/scripts/MIA_utils.py ./
+
+#### EO 2023-03-23 ####
+
+

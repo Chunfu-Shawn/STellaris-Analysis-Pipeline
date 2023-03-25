@@ -44,7 +44,6 @@ def MIA(MIA_dict,section_id,st_marker,sc_marker,cluster_key='leiden1'):
     M = len(sc_cluster)
     N = len(st_cluster)
     MIA_result = pd.DataFrame(np.random.randn(M,N),index=sc_cluster,columns=st_cluster)
-    MIA_result_idx = MIA_result.copy()
 
     #### Perform MIA
     '''
@@ -64,26 +63,18 @@ def MIA(MIA_dict,section_id,st_marker,sc_marker,cluster_key='leiden1'):
             q = len(set(gene_sc).intersection(set(gene_st)))
 
             pval_enr = hypergeom.sf(q-1, m, p, n)
-            pval_dep = hypergeom.cdf(q, m, p, n)
 
-            pval = np.min([pval_enr,pval_dep])
-            pval_idx = np.argmin([pval_enr,pval_dep])
+            MIA_result.loc[i, j] = pval_enr
 
-            MIA_result.loc[i, j] = pval
-            MIA_result_idx.loc[i,j] = pval_idx
-
-    #### pval correction
-    # Flatten MIA_result
+    #### Flatten MIA_result
     MIA_pval_list = []
-    MIA_pval_idx_list = []
     for i in range(len(MIA_result.values)):
         MIA_pval_list = MIA_pval_list + MIA_result.values[i].tolist()
-        MIA_pval_idx_list = MIA_pval_idx_list + MIA_result_idx.values[i].tolist()
     ## Correction
     MIA_qval_list = p_adjust_bh(MIA_pval_list)
 
     #### Calculate enrichment score (-log10 qvalue, enrichment- and depletion-aware)
-    MIA_enrichment_score_list = hypergeom_enrichment_score(MIA_qval_list,MIA_pval_idx_list)
+    MIA_enrichment_score_list = hypergeom_enrichment_score(MIA_qval_list)
     # list to df
     col_num = len(MIA_result.columns)
     MIA_enrichment_score = pd.DataFrame(list(zip(*(iter(MIA_enrichment_score_list),)*col_num)))
@@ -93,6 +84,7 @@ def MIA(MIA_dict,section_id,st_marker,sc_marker,cluster_key='leiden1'):
     #### Summarized enrichment score
     MIA_dict[section_id] = np.mean(MIA_enrichment_score.max(axis=0))
     logger.info("MIA Finished for {}...".format(section_id), extra={'step': 'MIA'})
+
 
 def MIA_multiprocess(st_marker_dict,sc_marker,cluster_key='leiden1',n_threads=30):
     MIA_dict = Manager().dict()

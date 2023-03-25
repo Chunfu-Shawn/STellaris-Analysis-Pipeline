@@ -82,3 +82,11 @@ cp /home/user/BGM/uplee/R_projects/debug_STellaris/scripts/run_celltrek.R ./
 cp /home/user/BGM/uplee/R_projects/debug_STellaris/scripts/spatial_mapping.sh ./
 
 #### EO 2023-03-22 ####
+
+#### 2023-03-23 ####
+
+# Change calculate_euclidean_distance.py (debug11)
+
+cp /home/user/data3/uplee/projects/spatialTransWeb/manuscript/manuscript_submission/debug/scripts/calculate_euclidean_distance.py ./
+
+#### 2023-03-23 ####

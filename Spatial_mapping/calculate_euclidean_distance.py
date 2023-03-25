@@ -90,7 +90,7 @@ def save_pair_json(dist_pair,output_path):
 def save_mat_json(dist_mat,dist_mat_heatmap,output_path):
     labels = [i for i in dist_mat_heatmap.ax_heatmap.yaxis.get_majorticklabels()]
     labels = [re.search(".*\'(.*)\'", str(l)).group(1) for l in labels]
-    dist_mat_log2 = np.log2(dist_mat)
+    dist_mat_log2 = np.log2(dist_mat+1)
     dist_mat_log2 = dist_mat_log2[labels].reindex(labels)
     log_distance = [[i,j,dist_mat_log2.iloc[i,j]] for j in range(dist_mat_log2.shape[1]) for i in range(dist_mat_log2.shape[0])]
     dist_mat_json = {

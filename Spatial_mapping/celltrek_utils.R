@@ -76,7 +76,9 @@ sc_analysis <- function(sc,nPCs=50) {
   sc <- ScaleData(sc, verbose = F)
   sc <- RunPCA(sc, npcs = nPCs, verbose = F)
   sc <- suppressWarnings(RunUMAP(sc, reduction = "pca", dims = 1:nPCs,verbose = F))
-  sc <- RunTSNE(sc, reduction = "pca", dims = 1:nPCs,check_duplicates = FALSE)
+  tryCatch({sc <- RunTSNE(sc, reduction = "pca", dims = 1:nPCs,check_duplicates = FALSE)},
+           error = function(e) {})
+  return(sc)
   
 }
 

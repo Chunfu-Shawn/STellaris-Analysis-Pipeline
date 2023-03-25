@@ -185,6 +185,8 @@ def preprocess(adata,key_celltype='cell_type',min_genes=200,min_mt_pct=20):
     if len(adata.obs[key_celltype].unique()) <= 1: # Number of cell types is 1, raise error.
         raise ValueError("The number of cell types is 1 or 0 such that no cell-cell interactions can be assessed! \
                           Please provide scRNA-seq data with more cell types.")
+    elif adata.n_obs < 100:
+        raise ValueError("The number of cells after filtration is less than 100, please provide more cells!")
 
     sc.pp.normalize_total(adata, target_sum=10000, inplace=True)
     sc.pp.log1p(adata)
