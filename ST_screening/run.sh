@@ -83,4 +83,10 @@ cp /home/user/data3/uplee/projects/spatialTransWeb/manuscript/manuscript_submiss
 
 #### EO 2023-03-23 ####
 
+#### 2023-04-20 ####
 
+# Modify process_sc.py to support CytoSPACE input generation
+
+cp /home/user/data3/uplee/projects/spatialTransWeb/manuscript/manuscript_revision/scripts/integration/ST_screening/process_sc.py ./
+
+#### EO 2023-04-20 ####

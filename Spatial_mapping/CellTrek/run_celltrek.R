@@ -27,7 +27,7 @@ scriptDir = dirname(scriptPath)
 args = args[-(1:5)]
 source("/home/user/data2/uplee/bin/R/common.R")
 source("/home/user/data2/uplee/bin/R/ggplot.R")
-source("/home/user/data2/rbase/STellaris/scripts/Spatial_mapping/celltrek_utils.R")
+source("/home/user/data2/rbase/STellaris/scripts/Spatial_mapping/CellTrek/celltrek_utils.R")
 
 #### Default necessary arguments
 key_celltype='cell_type'

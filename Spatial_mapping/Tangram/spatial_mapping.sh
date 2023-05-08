@@ -2,19 +2,16 @@
 
 usage(){
   echo "Usage: bash $(basename $0) --sc_h5ad sc.h5ad --key_celltype cell_type --dataset ST_dataset_id --section ST_section_id --outDir output_directory [-h]"
-  echo "Author: Kevin Lee"
+  echo "Author: Chunfu Shawn"
   echo "Description: This script assigns single cells to spatial locations based on ST data, and then portrays cell-cell interactions in the spatial context."
-  echo "Date: 2022-11-28"
+  echo "Date: 2023-4-22"
   echo "------------------------------------------------"
   echo "OPTIONS"
   echo -e "     --sc_h5ad \t\tPath to h5ad of scRNA-seq (sc.h5ad) [Required]"
   echo -e "     --key_celltype \t\tColumn name of cell type [default: cell_type]"
   echo -e "     --dataset \t\tST dataset ID chosen by user for spatial mapping [Required]"
   echo -e "     --section \t\tST section ID chosen by user for spatial mapping [Required]"
-  echo -e "     --knn_num \t\tNumber of nearest neighboring cells to determine coembedding filtering cutoff, 0 means skipping coembedding filtering [default: 50]"
-  echo -e "     --n_spots \t\tNumber of top-ranked nearest spots for each cell to keep in sparse graph for spatial mapping, the higher the value, the more spatial locations the cell may be assigned to [default: 10]"
-  echo -e "     --n_cells \t\tNumber of top-ranked nearest cells for each spot to keep in sparse graph for spatial mapping, the higher the value, the more cells may succeed in mapping to spatial locations [default: 10]"
-  echo -e "     --n_redundancy \t\tThe tolerance of redundancy, which means the maximum number of spots to which a cell is allowed to map. This value must be lower than the smaller value of n_spots and n_cells [default: 1]"
+  echo -e "     --num_epochs \t\tNumber of epochs for Tangram training [default: 1000]"
   echo -e "     --fragment_file \t\tThe fragment file of other modality, e.g., single-cell epigenomics data. This is a bed-lik file with first 5 columns to be used. [Optional]"
   echo -e "     --peak_file \t\tThe peak regions to aggregate epigenomic signals, e.g., active promoter region. THis is a bed-like file with first 4 columns to be used. If this file is provided, the fragment file MUST be also provided. [Optional]"
   echo -e "     --genome \t\tGenome version of the additional modality. Should match specified species. [default: hg38]"
@@ -28,13 +25,10 @@ usage(){
 
 ## Default argument
 key_celltype=cell_type
-knn_num=50
 n_threads=30
-n_spots=10
-n_cells=10
-n_redundancy=1
 genome=hg38
 top_n=10000
+num_epochs=1000
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -42,10 +36,7 @@ while [[ $# -gt 0 ]]; do
         --key_celltype)       key_celltype=$2;shift;;
         --dataset)            dataset=$2;shift;;
         --section)            section=$2;shift;;
-        --knn_num)            knn_num=$2;shift;;
-        --n_spots)            n_spots=$2;shift;;
-        --n_cells)            n_cells=$2;shift;;
-        --n_redundancy)       n_redundancy=$2;shift;;
+        --num_epochs)         num_epochs=$2;shift;;
         --fragment_file)      fragment_file=$2;shift;;
         --peak_file)          peak_file=$2;shift;;
         --genome)             genome=$2;shift;;
@@ -100,32 +91,46 @@ fi
 #echo -e "outDir\t$outDir"
 
 ## Configuration
-scriptDir=/home/user/data2/rbase/STellaris/scripts/Spatial_mapping
-source /home/user/BGM/uplee/anaconda3/bin/activate spatialWeb
+scriptDir=/home/user/data2/rbase/spatial_annotate_scripts/src/Tangram
+st_h5ad=/home/user/data3/uplee/projects/spatialTransWeb/spatial/visualization/${dataset}/${section}/${section}.input.h5ad
+source /home/user/BGM/rbase/env/anaconda3/bin/activate st_ann_anls
 mkdir -p $outDir/log $outDir/out/table $outDir/out/json $outDir/out/pdf 
 
 echo -e "*** Execution"
 
-## Run celltrek
-echo -e "`date -u`\tRun spatial mapping..."
+#### Coembedding filtering
+echo -e "`date -u`\tPerforming coembedding filtering..."
 
-Rscript $scriptDir/run_celltrek.R \
+Rscript $scriptDir/coembedding_filtering.R \
  -sc_h5ad=$sc_h5ad \
  -key_celltype=$key_celltype \
  -dataset=$dataset \
  -section=$section \
- -knn_num=$knn_num \
- -n_spots=$n_spots \
- -n_cells=$n_cells \
- -n_redundancy=$n_redundancy \
  -n_threads=$n_threads \
- -outDir=$outDir
+ -outDir=$outDir 1>$outDir/log/coembedding_filtering.log
 
 if [ ! $? -eq 0  ];then
-    echo -e "`date -u`\tSpatial mapping failed for some reason, please check log files!" >&2
+    echo -e "`date -u`\tPerforming coembedding filtering failed for some reason, please check log files!" >&2
     exit 1
 else
-    echo -e "`date -u`\tSuccessfully performed spatial mapping!"
+    echo -e "`date -u`\tSuccessfully performing coembedding filtering!"
+fi
+
+## Run Tangram
+echo -e "`date -u`\tRun spatial mapping using Tangram..."
+
+python $scriptDir/run_tangram.py \
+ --sc_h5ad=$sc_h5ad \
+ --st_h5ad=$st_h5ad \
+ --key_celltype=$key_celltype \
+ --num_epochs=$num_epochs\
+ --outDir=$outDir 1>$outDir/log/run_tangram.log 2>&1
+
+if [ ! $? -eq 0  ];then
+    echo -e "`date -u`\tRun Tangram failed for some reason, please check log files!" >&2
+    exit 1
+else
+    echo -e "`date -u`\tSuccessfully performed spatial mapping using Tangram!"
 fi
 
 ## Convert celltrek results to jsonl for visualization

@@ -288,6 +288,13 @@ def main(argsv):
     markers = extract_markers(adata,de_key=de_key)
     with open(os.path.join(args.outDir,'out','json','sc_markers.json'),'w') as f:
         json.dump(markers,f)
+    # cytospace input
+    count_cytospace = pd.DataFrame(adata.X.T, index=list(adata.var_names), columns=list(adata.obs_names))
+    count_cytospace.index.name = "gene"
+    count_cytospace.to_csv(os.path.join(args.outDir, 'sc_counts.txt'), sep="\t")
+
+    label_cytospace = adata.obs[[args.key_celltype]]
+    label_cytospace.to_csv(os.path.join(args.outDir, 'sc_labels.txt'), sep="\t")
 
     logger.info("All Finished!", extra={'step': 'Main'})
 
