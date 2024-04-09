@@ -118,7 +118,9 @@ class Tangram:
         # raw y
         self.adata_sc_ann.obs["y"] = self.adata_sp.obsm["spatial"][pred_spots, 1]
         # noise
-        noise_x_Y = ac.add_coord_noise(np.array(self.adata_sp.obsm["spatial"]), np.array(self.adata_sc_ann.obs[["x","y"]]), 10)
+        noise_x_Y = ac.add_coord_noise(np.array(self.adata_sc_ann.obs[["x","y"]]), 10)
+        # print(np.array(self.adata_sc_ann.obs[["x","y"]]))
+        # print(noise_x_Y)
         self.adata_sc_ann.obsm["spatial"] = noise_x_Y
         # x with noise
         self.adata_sc_ann.obs["x_noise"] = self.adata_sc_ann.obsm["spatial"][:, 0]

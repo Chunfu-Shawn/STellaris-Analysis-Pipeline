@@ -36,6 +36,7 @@ def find_k_nearest_neighbors(data, k):
 
     # find the k-nearest neighbors for each data point
     distances, indices = nbrs.kneighbors(data)
+
     # return the indices of the k-nearest neighbors for each data point
     return distances[:, 1:]  # exclude the first column which corresponds to the point itself
 
@@ -45,17 +46,14 @@ def spot_dis_intp(data, k):
     return np.median(distances)
 
 
-def add_coord_noise(data1, data2, k):
-    # add noise to x and y coordinates of data2 according to data1
-    theta = np.random.uniform(0, 2*np.pi, size=data2.shape[0])
-    alpha = np.sqrt(np.random.uniform(0, 1, size=data2.shape[0]))
-    dist_intp = spot_dis_intp(data1, k)
-    noise = np.empty(data2.shape)
-    noise[:,0] = data2[:,0] + (dist_intp/2) * np.sin(theta) * alpha
-    noise[:,1] = data2[:,1] + (dist_intp/2) * np.cos(theta) * alpha
-    print(pd.DataFrame(data1))
-    print(pd.DataFrame(data2))
-    print(pd.DataFrame(noise))
+def add_coord_noise(data, k):
+    # add noise to x and y coordinates
+    theta = np.random.uniform(0, 2*np.pi, size=data.shape[0])
+    alpha = np.sqrt(np.random.uniform(0, 1, size=data.shape[0]))
+    dist_intp = spot_dis_intp(data, k)
+    noise = np.empty(data.shape)
+    noise[:,0] = data[:,0] + (dist_intp/2) * np.sin(theta) * alpha
+    noise[:,1] = data[:,1] + (dist_intp/2) * np.cos(theta) * alpha
     return noise
 
 

@@ -4,7 +4,7 @@ usage(){
   echo "Usage: bash $(basename $0) --sc_h5ad sc.h5ad --key_celltype cell_type --dataset ST_dataset_id --section ST_section_id --outDir output_directory [-h]"
   echo "Author: Kevin Lee"
   echo "Description: This script assigns single cells to spatial locations based on ST data, and then portrays cell-cell interactions in the spatial context."
-  echo "Date: 2022-11-28"
+  echo "Date: 2023-2-28"
   echo "------------------------------------------------"
   echo "OPTIONS"
   echo -e "     --sc_h5ad \t\tPath to h5ad of scRNA-seq (sc.h5ad) [Required]"

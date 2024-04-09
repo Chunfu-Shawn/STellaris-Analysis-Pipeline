@@ -5,7 +5,7 @@ import scanpy as sc
 import numpy as np
 import scipy.sparse as sp
 
-st_dir="/home/user/data3/uplee/projects/spatialTransWeb/spatial/visualization"
+st_dir="/home/user/data/qijt/stdataset/h5ad_files_only_count"
 
 def main(argsv):
     parser = argparse.ArgumentParser(description="Prepare ST input for CytoSPACE.")

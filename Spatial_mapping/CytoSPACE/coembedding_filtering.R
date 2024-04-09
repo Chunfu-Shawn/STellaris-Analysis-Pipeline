@@ -62,7 +62,7 @@ suppressPackageStartupMessages(library(rjson))
 
 #### Configuration
 options(rf.cores=n_threads,mc.cores=n_threads)
-st_dir='/home/user/data3/uplee/projects/spatialTransWeb/spatial/visualization'
+st_dir='/home/user/data/qijt/stdataset/h5ad_files_only_count'
 st_h5ad=file.path(st_dir,dataset,section,paste0(section,".input.h5ad"))
 
 #### Read data

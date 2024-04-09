@@ -139,7 +139,7 @@ def main(argsv):
     args = parser.parse_args()
 
     #### Configuration
-    st_dir="/home/user/data3/uplee/projects/spatialTransWeb/spatial/visualization"
+    st_dir="/home/user/data/qijt/stdataset/h5ad_files_only_count"
     st_dir=os.path.join(st_dir, args.dataset, args.section)
 
     scale_factors_path = os.path.join(st_dir, 'spatial', "scalefactors_json.json")

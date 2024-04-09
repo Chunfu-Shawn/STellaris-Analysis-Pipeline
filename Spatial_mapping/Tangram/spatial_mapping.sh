@@ -91,8 +91,8 @@ fi
 #echo -e "outDir\t$outDir"
 
 ## Configuration
-scriptDir=/home/user/data2/rbase/spatial_annotate_scripts/src/Tangram
-st_h5ad=/home/user/data3/uplee/projects/spatialTransWeb/spatial/visualization/${dataset}/${section}/${section}.input.h5ad
+scriptDir=/home/user/data2/rbase/STellaris/scripts/Spatial_mapping/Tangram
+st_h5ad=/home/user/data/qijt/stdataset/h5ad_files_only_count/${dataset}/${section}/${section}.input.h5ad
 source /home/user/BGM/rbase/env/anaconda3/bin/activate st_ann_anls
 mkdir -p $outDir/log $outDir/out/table $outDir/out/json $outDir/out/pdf 
 
