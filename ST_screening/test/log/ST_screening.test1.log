@@ -1,0 +1,22 @@
+*** Arguments
+count	test1/raw/counts.csv.gz
+label	test1/raw/labels.csv.gz
+key_celltype	cell_type
+min_genes	200
+max_mt_pct	20
+dataset	STW-M-Brain-Slide-seq2-1-tmp,STW-M-Brain-ST-1,STW-M-Brain-ST-3,STW-M-Brain-Stereo-seq-1,STW-M-Brain-Visium-1,STW-M-Brain-Visium-3,STW-M-Brain-Visium-6,STW-M-Embryo-DBiT-seq-1,STW-M-Embryo-DBiT-seq-2,STW-M-Kidney-Visium-4,STW-M-Liver-ST-1
+section	GSM5173925_OB1_01,Rep10_MOB,Hip_adpolb_rep1,coronal_1,GSM5621972,ST8059048,WT,GSM4096261_10t,FFPE-1,f12hr_140_processed,CN65-D2
+cluster_key	leiden1
+st_dir	/home/user/data3/uplee/projects/spatialTransWeb/spatial/marker
+n_threads	30
+outDir	test1
+*** Execution
+Mon Nov 21 17:25:20 CST 2022	Processing scRNA-seq...
+Mon Nov 21 17:27:22 CST 2022	Successfully performed scRNA-seq preprocessing!
+Mon Nov 21 17:27:22 CST 2022	Performing MIA...
+Mon Nov 21 17:27:29 CST 2022	Successfully performed MIA!
+Mon Nov 21 17:27:29 CST 2022	All finished!
+
+real	2m9.716s
+user	1m33.275s
+sys	1m4.829s

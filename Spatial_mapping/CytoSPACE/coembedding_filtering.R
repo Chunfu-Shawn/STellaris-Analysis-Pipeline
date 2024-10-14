@@ -48,6 +48,7 @@ if(length(args) >= 1){
 }
 
 #### Require library
+suppressPackageStartupMessages(library(spatstat.core))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Matrix,quietly = T))
 suppressPackageStartupMessages(library(magrittr,quietly = T))
