@@ -48,13 +48,13 @@ if(length(args) >= 1){
 }
 
 #### Require library
-suppressPackageStartupMessages(library(spatstat.core))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Matrix,quietly = T))
 suppressPackageStartupMessages(library(magrittr,quietly = T))
 suppressPackageStartupMessages(library(dbscan,quietly = T))
 suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(scales))
+suppressPackageStartupMessages(library(spatstat.core))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(akima))
 suppressPackageStartupMessages(library(randomForestSRC))
